@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style/style.css">
+    <link rel="stylesheet" type="text/css" href="http://mplus-fonts.sourceforge.jp/webfonts/general-j/mplus_webfonts.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <title>Trifecta Lot - 3連単をナンバーズ代わりにしたい</title>
+</head>
+<body onload="LoadProc();">
+    <div class="mainframe">
+        <h2>Trifecta Lot</h2>
+        <p>どうせ予想は当たらないから乱数シードにすべてを託せ。収支がマイナス過ぎる人々のための運試しツール。</p>
+        <br>
+        <div class="buyblock">
+            <p>何頭出走する？</p>
+            <select id="tousu">
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+                <option value="6">6</option>
+                <option value="7">7</option>
+                <option value="8">8</option>
+                <option value="9">9</option>
+                <option value="10">10</option>
+                <option value="11">11</option>
+                <option value="12">12</option>
+                <option value="13">13</option>
+                <option value="14">14</option>
+                <option value="15">15</option>
+                <option value="16">16</option>
+                <option value="17">17</option>
+                <option value="18">18</option>
+            </select>
+            <button id="buy">当たれ！</button>
+        </div>
+
+        <div class = "baken">
+            <div class="date">
+                <h3 id="Today"></h3>
+            </div>
+            <div class="numbers">
+                <div id="1chaku"></div>
+                <div id="next">▶</div>
+                <div id="2chaku"></div>
+                <div id="next">▶</div>
+                <div id="3chaku"></div>
+            </div>
+            <div id="kumijoke"></div>
+    
+        </div>
+
+        <div>
+            <p></p>
+        </div>
+    </div>
+    
+    <script>
+        var now = new Date();
+        function LoadProc() {
+            var target = document.getElementById("Today");
+            var Year = now.getFullYear();
+            var Month = now.getMonth()+1;
+            var Date = now.getDate();
+            target.innerHTML = Year + "年" + Month + "月" + Date + "日　乱数競馬場";
+        }
+
+        document.getElementById("buy").onclick = function() {
+            var arr = [];
+            var select = document.getElementById('tousu');
+
+            for(var num = 1; num <= select.value; num++){
+                arr.push(num);
+            }
+
+            var l = arr.length;
+            
+            //Fisher–Yates shuffle
+            while (l) {
+                var j = Math.floor( Math.random() * l );
+                var t = arr[--l];
+                arr[l] = arr[j];
+                arr[j] = t;
+            }
+
+            for(var i = 0; i <= 2; i++){
+                console.log(arr[i]);
+                if(i == 0){                    
+                    var first = document.getElementById('1chaku');
+                    first.textContent = arr[i];
+                }
+                if(i == 1){                    
+                    var second = document.getElementById('2chaku');
+                    second.textContent = arr[i];
+                }
+                if(i == 2){                    
+                    var third = document.getElementById('3chaku');
+                    third.textContent = arr[i];
+                }
+            }
+
+            //組み合わせ数ジョーク用
+            var random = Math.floor( Math.random() * 99999 ) + 1;
+            random = random * 100;
+            var joke = document.getElementById('kumijoke');
+            joke.innerHTML = "組み合わせ数１　" + random +"枚　" + random*10 + "円";
+        };
+
+        $(function(){
+            $('.numbers').hide();
+            $('#kumijoke').hide();
+
+            $('#buy').click(function() {
+                $('.numbers').hide().fadeIn();
+                $('#kumijoke').hide().fadeIn();
+            })
+         });
+
+    </script>
+</body>
+</html>
