@@ -5,13 +5,13 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style/style.css">
-    <link rel="stylesheet" type="text/css" href="http://mplus-fonts.sourceforge.jp/webfonts/general-j/mplus_webfonts.css">
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="jquery/jquery-3.6.0.min.js"></script>
     <title>Trifecta Lot - 3連単をナンバーズ代わりにしたい</title>
 </head>
 <body onload="LoadProc();">
+    <p>※このツールは私のgithubリポジトリに公開しています。<br>剽窃ではありません。https://sekiguchishun.github.io/TrifectaLot/</p>
     <div class="mainframe">
-        <h2>Trifecta Lot</h2>
+        <h2>Trifecta Lot</h2>        
         <p>どうせ予想は当たらないから乱数シードにすべてを託せ。収支がマイナス過ぎる人々のための運試しツール。</p>
         <br>
         <div class="buyblock">
@@ -59,6 +59,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r121/three.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/vanta@latest/dist/vanta.waves.min.js"></script>
     <script>
+        //アニメーションのCDNの設定変更
         VANTA.WAVES({
           el: ".mainframe",
           mouseControls: true,
@@ -74,69 +75,7 @@
           waveSpeed: 1.0,
           zoom: 0.66
         })
-        </script>
-    
-    <script>
-        var now = new Date();
-        function LoadProc() {
-            var target = document.getElementById("Today");
-            var Year = now.getFullYear();
-            var Month = now.getMonth()+1;
-            var Date = now.getDate();
-            target.innerHTML = Year + "年" + Month + "月" + Date + "日　乱数競馬場";
-        }
-
-        document.getElementById("buy").onclick = function() {
-            var arr = [];
-            var select = document.getElementById('tousu');
-
-            for(var num = 1; num <= select.value; num++){
-                arr.push(num);
-            }
-
-            var l = arr.length;
-            
-            //Fisher–Yates shuffle
-            while (l) {
-                var j = Math.floor( Math.random() * l );
-                var t = arr[--l];
-                arr[l] = arr[j];
-                arr[j] = t;
-            }
-
-            for(var i = 0; i <= 2; i++){
-                console.log(arr[i]);
-                if(i == 0){                    
-                    var first = document.getElementById('1chaku');
-                    first.textContent = arr[i];
-                }
-                if(i == 1){                    
-                    var second = document.getElementById('2chaku');
-                    second.textContent = arr[i];
-                }
-                if(i == 2){                    
-                    var third = document.getElementById('3chaku');
-                    third.textContent = arr[i];
-                }
-            }
-
-            //組み合わせ数ジョーク用
-            var random = Math.floor( Math.random() * 99999 ) + 1;
-            random = random * 100;
-            var joke = document.getElementById('kumijoke');
-            joke.innerHTML = "組み合わせ数１　" + random +"枚　" + random*10 + "円";
-        };
-
-        $(function(){
-            $('.numbers').hide();
-            $('#kumijoke').hide();
-
-            $('#buy').click(function() {
-                $('.numbers').hide().fadeIn();
-                $('#kumijoke').hide().fadeIn();
-            })
-         });
-
     </script>
+    <script src="scripts/lot.js"></script>
 </body>
 </html>
